@@ -55,8 +55,12 @@ public class UserController {
     private boolean ValidateForHistory(String email, String password) {
         List<PasswordHistory> historyList = passwordHistoryRepository.findTop3ByEmailOrderByCreatedDesc(email);
         for (PasswordHistory passwordHistory : historyList) {
-            if (passwordHistory.getPassword().equals(password))
-                return false;
+            if (passwordHistory.getPassword() != null) {
+                if (passwordHistory.getPassword().equals(password))
+                    return false;
+            }
+            else
+                return true;
         }
         return true;
     }
